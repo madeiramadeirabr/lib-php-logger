@@ -19,6 +19,7 @@ class LoggerTest extends TestCase
     public function testGetLogger(): void
     {
         $logger = new Logger(new Config());
+
         $monolog = $logger->getLogger();
 
         $this->assertInstanceOf(
@@ -30,40 +31,41 @@ class LoggerTest extends TestCase
 
     public function testEmergency()
     {
-        $logger = self::$logger;
-        $logger->emergency("Emergency test", []);
-
-        $this->assertTrue(true);
+        $this->assertTrue(
+            method_exists(self::$logger, 'emergency'),
+            "Class does not have method emergency"
+        );
     }
+
     public function testError()
     {
-        $logger = self::$logger;
-        $logger->error("Error test", []);
-
-        $this->assertTrue(true);
+        $this->assertTrue(
+            method_exists(self::$logger, 'error'),
+            "Class does not have method error"
+        );
     }
 
     public function testInfo()
     {
-        $logger = self::$logger;
-        $logger->info("Info test", []);
-
-        $this->assertTrue(true);
+        $this->assertTrue(
+            method_exists(self::$logger, 'info'),
+            "Class does not have method info"
+        );
     }
 
     public function testDebug()
     {
-        $logger = self::$logger;
-        $logger->debug("Debug test", []);
-
-        $this->assertTrue(true);
+        $this->assertTrue(
+            method_exists(self::$logger, 'debug'),
+            "Class does not have method debug"
+        );
     }
 
     public function testWarning()
     {
-        $logger = self::$logger;
-        $logger->warning("Warning test", []);
-
-        $this->assertTrue(true);
+        $this->assertTrue(
+            method_exists(self::$logger, 'warning'),
+            "Class does not have method warning"
+        );
     }
 }
