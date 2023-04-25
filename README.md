@@ -26,6 +26,16 @@ $ docker exec -it mmrfc-php-logger ./vendor/bin/phpunit
 ```
 
 ### Instruções para uso
+
+***Instalação***:
+
+Rode
+```bash
+$ composer config repositories.lib_php-mmrfc-logger git git@github.com:madeiramadeirabr/lib_php-mmrfc-logger.git
+$ composer require madeiramadeirabr/lib_php-mmrfc-logger
+```
+
+
 Para uso da biblioteca em projetos PHP
 
 ```php
@@ -97,7 +107,7 @@ $logger->info(
             "order_id" => 1
         ],
         "session_id" => "abcde",
-        "trace_id" => "fghi
+        "trace_id" => "fghi"
     ]
 );
 ```
