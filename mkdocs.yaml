@@ -1,0 +1,11 @@
+site_name: 'Lib PHP MMRFC Logger'
+site_description: 'Documentação de apoio do Lib PHP MMRFC Logger'
+repo_url: https://github.com/madeiramadeirabr/lib_php-mmrfc-logger
+edit_uri: edit/production/docs
+
+plugins:
+  - techdocs-core
+
+nav:
+  # - Catálogo: catalog.md Consulte a doc para entender como utilizar 
+  # https://madeiramadeira.atlassian.net/wiki/spaces/DX/pages/2792980526/TechDocs
