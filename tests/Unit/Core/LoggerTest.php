@@ -12,45 +12,84 @@ class LoggerTest extends TestCase
 
     public function setUp(): void
     {
-        self::$logger = new Logger(new LoggerRepositoryMock());
+        self::$logger = $this->getMockBuilder(Logger::class)
+                            ->setConstructorArgs([new LoggerRepositoryMock()])
+                            ->onlyMethods([
+                                'emergency',
+                                'error',
+                                'info',
+                                'debug',
+                                'warning'
+                            ])
+                            ->getMock();
     }
 
     public function testEmergency()
     {
         $logger = self::$logger;
-        $logger->emergency("Emergency test", []);
 
-        $this->assertTrue(true);
+        $logger->expects($this->once())
+                ->method('emergency')
+                ->with(
+                    $this->equalTo('Emergency test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->emergency("Emergency test");
     }
     public function testError()
     {
         $logger = self::$logger;
-        $logger->error("Error test", []);
 
-        $this->assertTrue(true);
+        $logger->expects($this->once())
+                ->method('error')
+                ->with(
+                    $this->equalTo('Error test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->error("Error test");
     }
 
     public function testInfo()
     {
         $logger = self::$logger;
-        $logger->info("Info test", []);
 
-        $this->assertTrue(true);
+        $logger->expects($this->once())
+                ->method('info')
+                ->with(
+                    $this->equalTo('Info test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->info("Info test");
     }
 
     public function testDebug()
     {
         $logger = self::$logger;
-        $logger->debug("Debug test", []);
 
-        $this->assertTrue(true);
+        $logger->expects($this->once())
+                ->method('debug')
+                ->with(
+                    $this->equalTo('Debug test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->debug("Debug test");
     }
 
     public function testWarning()
     {
         $logger = self::$logger;
-        $logger->warning("Warning test", []);
 
-        $this->assertTrue(true);
+        $logger->expects($this->once())
+                ->method('warning')
+                ->with(
+                    $this->equalTo('Warning test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->warning("Warning test");
     }
 }
