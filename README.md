@@ -126,6 +126,7 @@ Resposta
 {
     "message":"Mensagem descritiva",
     "level":"INFO",
+    "global_event_name": "ORDER CREATED",
     "global_event_timestamp":"2023-04-25T15:19:19+00:00",
     "service_name":"A dummy Project",
     "context": {
