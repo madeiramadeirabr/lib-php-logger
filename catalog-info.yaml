@@ -1,10 +1,10 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: lib_php-mmrfc-logger
+  name: lib_php-logger
   annotations:
-    github.com/project-slug: madeiramadeirabr/lib_php-mmrfc-logger
-    sonarqube.org/project-key: madeiramadeirabr/lib_php-mmrfc-logger
+    github.com/project-slug: madeiramadeirabr/lib_php-logger
+    sonarqube.org/project-key: madeiramadeirabr/lib_php-logger
 spec:
   type: service
   lifecycle: experimental
