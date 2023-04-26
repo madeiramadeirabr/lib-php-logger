@@ -10,7 +10,7 @@ class Logger implements LoggerInterface
     /**
      * @var \MadeiraMadeira\Logger\Core\Interfaces\LoggerInterface
      */
-    private LoggerInterface $logger;
+    private $logger;
 
     public function __construct(LoggerInterface $logger)
     {

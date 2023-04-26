@@ -21,7 +21,7 @@ class Logger implements LoggerInterface
     /**
      *  @var \MadeiraMadeira\Logger\Core\Config
      */
-    private Config $config;
+    private $config;
 
     /**
      * @param \MadeiraMadeira\Logger\Core\Config $config
@@ -39,7 +39,7 @@ class Logger implements LoggerInterface
     {
         $handler = new StreamHandler(
             $this->config->getStreamHandler(),
-            $this->config->getLevel(),
+            $this->config->getLevel()
         );
         $handler->setFormatter(
             new Formatter($this->config->getServiceName())

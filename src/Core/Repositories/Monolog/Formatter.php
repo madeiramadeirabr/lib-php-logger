@@ -26,7 +26,7 @@ class Formatter extends JsonFormatter
      * @param int|null $depth
      * @return mixed
      */
-    public function normalize($data, $depth = 0)
+    public function normalize($data, int $depth = 0)
     {
         if ($depth != 0) {
             return parent::normalize($data, $depth);
