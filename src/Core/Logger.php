@@ -67,4 +67,14 @@ class Logger implements LoggerInterface
         $this->logger->debug($message, $args);
     }
 
+    /**
+     * @param string message
+     * @param array|null args
+     * @return void
+     */
+    public function trace(string $message, array $args = array())
+    {
+        $this->logger->trace($message, $args);
+    }
+
 }

@@ -4,6 +4,7 @@ namespace MadeiraMadeira\Logger\Core\Repositories\Logger;
 
 use MadeiraMadeira\Logger\Core\Interfaces\LoggerInterface;
 use MadeiraMadeira\Logger\Core\Config;
+use MadeiraMadeira\Logger\Core\Repositories\Logger\Exceptions\LogLevelNotDefinedException;
 use MadeiraMadeira\Logger\Core\Repositories\Logger\Handler;
 use MadeiraMadeira\Logger\Core\Repositories\Logger\Formatter;
 class Logger implements LoggerInterface
@@ -13,6 +14,7 @@ class Logger implements LoggerInterface
      */
     private $handler;
 
+    public const TRACE = 0;
     public const DEBUG = 1;
     public const INFO = 2;
     public const WARNING = 3;
@@ -20,6 +22,7 @@ class Logger implements LoggerInterface
     public const EMERGENCY = 5;
 
     public const LEVELS = [
+        self::TRACE => 'TRACE',
         self::DEBUG => 'DEBUG',
         self::INFO => 'INFO',
         self::WARNING => 'WARNING',
@@ -36,6 +39,7 @@ class Logger implements LoggerInterface
         $handler = new Handler(
             $config->getLevel()
         );
+        
         $handler->setFormatter(
             new Formatter($config->getServiceName())
         );
@@ -128,6 +132,16 @@ class Logger implements LoggerInterface
     }   
 
     /**
+     * @param string message
+     * @param array|null args
+     * @return void
+     */
+    public function trace(string $message, array $args = array()): void
+    {
+        $this->log(self::TRACE, $message, $args);
+    }   
+
+    /**
      * @param string
      * @return int
      */
@@ -137,7 +151,7 @@ class Logger implements LoggerInterface
         $level = strtoupper($level);
 
         if (!in_array($level, $levels)) {
-            throw new \Exception("Log level \"$level\" is not defined, use one of: ". implode(", ", array_values($levels)));
+            throw new LogLevelNotDefinedException("Log level \"$level\" is not defined, use one of: ". implode(", ", array_values($levels)));
         }
 
         return array_flip($levels)[$level];

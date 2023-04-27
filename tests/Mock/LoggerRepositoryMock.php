@@ -14,4 +14,6 @@ class LoggerRepositoryMock implements LoggerInterface
     public function info(string $message, array $args = array()) {}
 
     public function debug(string $message, array $args = array()) {}
+
+    public function trace(string $message, array $args = array()) {}
 }

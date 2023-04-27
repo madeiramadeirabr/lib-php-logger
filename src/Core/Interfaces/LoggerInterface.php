@@ -14,5 +14,7 @@ interface LoggerInterface
 
     public function debug(string $message, array $args = array());
 
+    public function trace(string $message, array $args = array());
+
 }
 
