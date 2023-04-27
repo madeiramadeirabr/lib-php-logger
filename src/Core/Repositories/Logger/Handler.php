@@ -2,6 +2,7 @@
 
 namespace MadeiraMadeira\Logger\Core\Repositories\Logger;
 
+use MadeiraMadeira\Logger\Core\Repositories\Logger\Exceptions\FailedToOpenStreamException;
 use MadeiraMadeira\Logger\Core\Repositories\Logger\Logger;
 
 class Handler
@@ -27,8 +28,13 @@ class Handler
 
     public function handle($record)
     {
-        if (!$this->stream) {
+        if (!is_resource($this->stream)) {
             $this->stream = fopen("php://stdout", "a");
+
+            if (!is_resource($this->stream)) {
+                // nao conseguiu abrir o stdout ou o arquivo
+                throw new FailedToOpenStreamException("Failed to open stream");
+            }
         }
 
         $formatedRecord = $this->formatter->format($record);

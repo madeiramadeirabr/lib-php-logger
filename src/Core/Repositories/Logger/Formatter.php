@@ -7,6 +7,7 @@ use Throwable;
 class Formatter
 {
 
+    private $maxDepth = 5;
     private $serviceName;
 
     public function __construct($serviceName)
@@ -14,42 +15,81 @@ class Formatter
         $this->serviceName = $serviceName;
     }
     
+    /**
+     * @param array $record
+     * @return string|bool
+     */
     public function format($record)
     {
+        $normalized = $this->normalize($record);
+
+        return $this->toJson($normalized) . "\n";
+    }
+
+    private function normalize($data, int $depth = 0)
+    {
+        if ($depth > $this->maxDepth) {
+            return $data;
+        }
+        
+        $isFirstDepth = $depth == 0;
+        
+        if ($isFirstDepth) {
+            return $this->normalizeFirstDepth($data);
+        }
+        
+        if (is_array($data)) {
+            return $this->normalizeArray($data, $depth);
+        }
+
+        if (is_object($data)) {
+            return $this->normalizeObject($data);
+        }
+        
+        return $data;
+    }
+
+    private function normalizeArray($data, $depth)
+    {
+        foreach($data as $key => $value) {
+            $normalized[$key] = $this->normalize($value, $depth + 1);
+        }
+
+        return $normalized;
+    }
+
+    private function normalizeFirstDepth($data)
+    {
+        $depth = 0;
         $normalized = [
-            'level' => $record['level'],
-            'message' => $record['message'],
-            'global_event_timestamp' => $record['global_event_timestamp'],
+            'level' => $data['level'],
+            'message' => $data['message'],
+            'global_event_timestamp' => $data['global_event_timestamp'],
             'service_name' => $this->serviceName
         ];
 
-        if (!empty($record['context']['global_event_name'])) {
-            $normalized['global_event_name'] = $record['context']['global_event_name'];
-            unset($record['context']['global_event_name']);
+        if (!empty($data['context']['global_event_name'])) {
+            $normalized['global_event_name'] = $data['context']['global_event_name'];
+            unset($data['context']['global_event_name']);
         }
 
-        if (!empty($record['context']['trace_id'])) {
-            $normalized['trace_id'] = $record['context']['trace_id'];
-            unset($record['context']['trace_id']);
+        if (!empty($data['context']['trace_id'])) {
+            $normalized['trace_id'] = $data['context']['trace_id'];
+            unset($data['context']['trace_id']);
         }
 
-        if (!empty($record['context']['session_id'])) {
-            $normalized['session_id'] = $record['context']['session_id'];
-            unset($record['context']['session_id']);
+        if (!empty($data['context']['session_id'])) {
+            $normalized['session_id'] = $data['context']['session_id'];
+            unset($data['context']['session_id']);
         }
 
-        foreach ($record['context'] as $key => $value) {
-            if (is_object($value)) {
-                $normalized['context'][] = $this->normalizeObject($value);
-            }
-            else {
-                $normalized['context'][$key] = $value;
-            }
+        $normalized['context'] = $this->normalizeArray($data['context'], $depth + 1);
 
-            
-        }
-
-        return json_encode($normalized, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n";
+        return $normalized;
+    }
+    private function toJson($record)
+    {
+        return json_encode($record, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
     }
 
     private function normalizeObject($value)
