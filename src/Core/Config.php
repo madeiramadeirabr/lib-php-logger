@@ -26,7 +26,7 @@ class Config
      */
     public function __construct(array $args = array())
     {
-        $this->streamHandler = 'php://stdout';
+        $this->streamHandler = $args['streamHandler'] ?? 'php://stdout';
         $this->serviceName = $args['serviceName'] ?? $_SERVER['APP_NAME'] ?? "A dummy Project";
         $this->level = $args['level'] ?? 'INFO';
     }

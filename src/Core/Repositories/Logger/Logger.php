@@ -37,6 +37,7 @@ class Logger implements LoggerInterface
     public function __construct(Config $config)
     {
         $handler = new Handler(
+            $config->getStreamHandler(),
             $config->getLevel()
         );
         
