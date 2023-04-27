@@ -3,17 +3,6 @@
 ### Descrição
 Biblioteca em PHP que implementa a [MMRFC](https://madeiramadeira.atlassian.net/wiki/spaces/S/pages/2317942893/MMRFC+1+-+Log) de Logs
 
-### Versões suportadas
-
-| PHP 	| Monolog 	| PHP Unit 	|
-|-----	|---------	|----------	|
-| 7.1 	| ^2.0   	| 7.x      	| ok
-| 7.2 	| ^2.5    	| 8.x      	| ok
-| 7.3 	| ^2.5    	| 8.x      	| ok
-| 7.4 	| ^2.5    	| 8.x      	| ok
-| 8.0 	| ^2.5    	| 8.x      	| ok
-| 8.1 	| ^2.5    	| 8.x     	| ok
-
 ### Contexto de negócio
 - biblioteca em php
 
