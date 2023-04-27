@@ -23,7 +23,11 @@ class Formatter
     {
         $normalized = $this->normalize($record);
 
-        return $this->toJson($normalized) . "\n";
+        if (empty($normalized['context'])) {
+            unset($normalized['context']);
+        }
+        
+        return $this->toJson($normalized);
     }
 
     /**
@@ -61,6 +65,8 @@ class Formatter
      */
     private function normalizeArray($data, $depth)
     {
+        $normalized = [];
+
         foreach($data as $key => $value) {
             $normalized[$key] = $this->normalize($value, $depth + 1);
         }

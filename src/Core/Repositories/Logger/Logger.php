@@ -55,7 +55,7 @@ class Logger implements LoggerInterface
      * @param array $args 
      * @return void
      */
-    public function addRecord($level, $message, $args)
+    private function addRecord($level, $message, $args)
     {
         if (!$this->handler->isHandling($level)) {
             return;
