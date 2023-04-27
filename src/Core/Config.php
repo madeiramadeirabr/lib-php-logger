@@ -6,17 +6,6 @@ namespace MadeiraMadeira\Logger\Core;
 class Config
 {
     /**
-     * @var array
-     */
-    private static $levels = [
-        'DEBUG',
-        'INFO',
-        'WARNING',
-        'ERROR',
-        'EMERGENCY'
-    ];
-
-    /**
      * @var string
      */
     private $streamHandler;
@@ -37,14 +26,9 @@ class Config
      */
     public function __construct(array $args = array())
     {
-        $this->streamHandler = $args['streamHandler'] ?? 'php://stdout';
+        $this->streamHandler = 'php://stdout';
         $this->serviceName = $args['serviceName'] ?? $_SERVER['APP_NAME'] ?? "A dummy Project";
-
-        $this->level = 'INFO';
-
-        if (isset($args['level']) && in_array($args['level'], self::$levels)) {
-            $this->level = $args['level'];
-        }
+        $this->level = $args['level'] ?? 'INFO';
     }
 
     /**

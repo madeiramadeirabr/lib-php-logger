@@ -48,19 +48,5 @@ class ConfigTest extends TestCase
                 ],
                 "Should return a Config Object with level ERROR"
             );
-    
-            $config = new Config([
-                'streamHandler' => './path/to/file',
-            ]);
-            
-            $this->assertEquals(
-                $config->toArray(), 
-                [
-                    'streamHandler' => './path/to/file',
-                    'level' => "INFO",
-                    'serviceName' => 'A dummy Project'
-                ],
-                "Should return a Config Object with stream handler changed"
-            );
         }
 }
