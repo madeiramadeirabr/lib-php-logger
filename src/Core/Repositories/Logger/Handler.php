@@ -16,37 +16,65 @@ class Handler
 
     private $formatter;
 
-    public function __construct($level)
+    private $url;
+
+    /**
+     * @param string $url
+     * @param int $level
+     */
+    public function __construct($url, $level)
     {
+        $this->url = $url;
         $this->level = Logger::toLoggerLevel($level);
     }
 
+    /**
+     * @param \MadeiraMadeira\Logger\Core\Repositories\Logger\Formatter $formatter
+     * @return void
+     */
     public function setFormatter($formatter)
     {
         $this->formatter = $formatter;
     }
 
+    /**
+     * @param array $record
+     * @return bool
+     */
     public function handle($record)
     {
-        if (!is_resource($this->stream)) {
-            $this->stream = fopen("php://stdout", "a");
-
+        $success = true;
+        try{
             if (!is_resource($this->stream)) {
-                // nao conseguiu abrir o stdout ou o arquivo
-                throw new FailedToOpenStreamException("Failed to open stream");
+                $this->stream = fopen($this->url, "a");
+                
+                if (!is_resource($this->stream)) {
+                    throw new FailedToOpenStreamException("Failed to open stream");
+                }
             }
+            
+            $formatedRecord = $this->formatter->format($record);
+            $this->write($formatedRecord);
+        }catch(\Exception $e) {
+            $success = false;
         }
 
-        $formatedRecord = $this->formatter->format($record);
-
-        $this->write($formatedRecord);
+        return $success;
     }
 
+    /**
+     * @param mixed $record
+     * @return void
+     */
     private function write($record)
     {
         fwrite($this->stream, (string) $record);
     }
 
+    /**
+     * @param int $level
+     * @return bool
+     */
     public function isHandling($level)
     {
         return $level >= $this->level;

@@ -26,6 +26,11 @@ class Formatter
         return $this->toJson($normalized) . "\n";
     }
 
+    /**
+     * @param mixed $data
+     * @param int|null $depth
+     * @return @mixed
+     */
     private function normalize($data, int $depth = 0)
     {
         if ($depth > $this->maxDepth) {
@@ -49,6 +54,11 @@ class Formatter
         return $data;
     }
 
+    /**
+     * @param array $data
+     * @param int @depth
+     * @return array
+     */
     private function normalizeArray($data, $depth)
     {
         foreach($data as $key => $value) {
@@ -58,6 +68,11 @@ class Formatter
         return $normalized;
     }
 
+    /**
+     * @param array $data
+     * @param int @depth
+     * @return array
+     */
     private function normalizeFirstDepth($data)
     {
         $depth = 0;
@@ -87,11 +102,20 @@ class Formatter
 
         return $normalized;
     }
+
+    /**
+     * @param mixed $record
+     * @return string
+     */
     private function toJson($record)
     {
         return json_encode($record, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
     }
 
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     private function normalizeObject($value)
     {
         if ($value instanceof Throwable) {
@@ -101,6 +125,10 @@ class Formatter
         return $value;
     }
 
+    /**
+     * @param \Exception $e
+     * @return array
+     */
     private function normalizeException($e)
     {
         return [

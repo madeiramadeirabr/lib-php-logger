@@ -86,7 +86,7 @@ $logger = (new LoggerFactory())->createLoggerInstance(
 - warning
 - info
 - debug
-
+- trace
 
 
 
