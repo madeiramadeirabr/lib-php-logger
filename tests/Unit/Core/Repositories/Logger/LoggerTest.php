@@ -15,15 +15,6 @@ class LoggerTest extends TestCase
     {
         self::$logger = $this->getMockBuilder(Logger::class)
                             ->setConstructorArgs([new Config()])
-                            ->onlyMethods([
-                                'debug',
-                                'trace',
-                                'log',
-                                'info',
-                                'warning',
-                                'error',
-                                'emergency'
-                            ])
                             ->getMock();
     }
 
