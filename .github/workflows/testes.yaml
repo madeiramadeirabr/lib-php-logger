@@ -1,7 +1,9 @@
 name: ci tests
 
 on:
-  - push
+  pull_request:
+    branches:
+      - production
     
 jobs:
   run_tests:    
