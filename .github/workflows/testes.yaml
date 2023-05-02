@@ -19,5 +19,7 @@ jobs:
         php-version: ${{ matrix.php-versions }}
     - name: Composer install
       run: composer install
+    - name: Configure tests
+      run: ./vendor/bin/phpunit --migrate-configuration
     - name: run tests
       run: ./vendor/bin/phpunit
