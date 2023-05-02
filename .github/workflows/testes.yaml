@@ -1,0 +1,23 @@
+name: ci tests
+
+on:
+  - push
+    
+jobs:
+  run_tests:    
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php-versions: ['7.2']
+    name: PHP ${{ matrix.php-versions }} ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.1
+    - name: Composer install
+      run: composer install
+    - name: run tests
+      run: ./vendor/bin/phpunit
