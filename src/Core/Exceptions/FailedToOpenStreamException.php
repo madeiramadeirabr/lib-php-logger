@@ -1,6 +1,6 @@
 <?php
 
-namespace MadeiraMadeira\Logger\Core\Repositories\Logger\Exceptions;
+namespace MadeiraMadeira\Logger\Core\Exceptions;
 use Exception;
 use Throwable;
 

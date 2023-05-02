@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Core\Repositories\Logger\Formatter;
-use Exception;
+namespace Tests\Core\Formatter;
+
 use PHPUnit\Framework\TestCase;
-use MadeiraMadeira\Logger\Core\Repositories\Logger\Formatter;
+use MadeiraMadeira\Logger\Core\Formatter;
 
 class FormatterTest extends TestCase
 {
@@ -18,7 +18,8 @@ class FormatterTest extends TestCase
             'level' => 'INFO',
             'message' => 'Mensagem',
             'global_event_timestamp' => $timestamp,
-            'context' => []
+            'context' => [],
+            "global_event_name" => ""
         ]);
 
         $expected = [
@@ -47,10 +48,10 @@ class FormatterTest extends TestCase
             'global_event_timestamp' => $timestamp,
             'context' => [
                 "teste" => "com contexto",
-                "global_event_name" => "evento",
                 "trace_id" => "123",
                 "session_id" => "123"
-            ]
+            ],
+            
         ]);
 
         $expected = [
@@ -61,7 +62,6 @@ class FormatterTest extends TestCase
             'context' => [
                 'teste' => 'com contexto'
             ],
-            "global_event_name" => "evento",
             "trace_id" => "123",
             "session_id" => "123"
         ];

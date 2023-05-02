@@ -1,13 +1,22 @@
 <?php
 
-namespace MadeiraMadeira\Logger\Core\Repositories\Logger;
+namespace MadeiraMadeira\Logger\Core;
 
+use JsonSerializable;
+use MadeiraMadeira\Logger\Core\Interfaces\FormatterInterface;
 use Throwable;
 
-class Formatter
+class Formatter implements FormatterInterface
 {
 
+    /**
+     * @var int
+     */
     private $maxDepth = 5;
+
+    /**
+     * @var string
+     */
     private $serviceName;
 
     public function __construct($serviceName)
@@ -76,22 +85,20 @@ class Formatter
 
     /**
      * @param array $data
-     * @param int @depth
      * @return array
      */
-    private function normalizeFirstDepth($data)
+    private function normalizeFirstDepth(array $data)
     {
         $depth = 0;
         $normalized = [
             'level' => $data['level'],
             'message' => $data['message'],
             'global_event_timestamp' => $data['global_event_timestamp'],
-            'service_name' => $this->serviceName
+            'service_name' => $this->serviceName,
         ];
 
-        if (!empty($data['context']['global_event_name'])) {
-            $normalized['global_event_name'] = $data['context']['global_event_name'];
-            unset($data['context']['global_event_name']);
+        if (!empty($data['global_event_name'])) {
+            $normalized['global_event_name'] = $data['global_event_name'];
         }
 
         if (!empty($data['context']['trace_id'])) {
@@ -128,6 +135,10 @@ class Formatter
      */
     private function normalizeObject($value)
     {
+        if ($value instanceof JsonSerializable) {
+            return $value;
+        }
+
         if ($value instanceof Throwable) {
             return $this->normalizeException($value);
         }

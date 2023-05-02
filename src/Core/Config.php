@@ -56,6 +56,30 @@ class Config
     }
 
     /**
+     * @param string $level
+     */
+    public function setLevel(string $level)
+    {
+        $this->level = $level;
+    }
+    
+    /**
+     * @param string $serviceName
+     */
+    public function setServiceName(string $serviceName)
+    {
+        $this->serviceName = $serviceName;
+    }
+    
+    /**
+     * @param string $streamHandler
+     */
+    public function setStreamHandler(string $streamHandler)
+    {
+        $this->streamHandler = $streamHandler;
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array

@@ -1,11 +1,12 @@
 <?php
 
-namespace MadeiraMadeira\Logger\Core\Repositories\Logger;
+namespace MadeiraMadeira\Logger\Core;
 
-use MadeiraMadeira\Logger\Core\Repositories\Logger\Exceptions\FailedToOpenStreamException;
-use MadeiraMadeira\Logger\Core\Repositories\Logger\Logger;
+use MadeiraMadeira\Logger\Core\Interfaces\HandlerInterface;
+use MadeiraMadeira\Logger\Core\Exceptions\FailedToOpenStreamException;
+use MadeiraMadeira\Logger\Core\Logger;
 
-class Handler
+class Handler implements HandlerInterface
 {
     /**
      * @var int $level
@@ -14,22 +15,30 @@ class Handler
 
     private $stream;
 
+    /**
+     * @var \MadeiraMadeira\Logger\Core\Interfaces\FormatterInterface
+     */
     private $formatter;
-
+    
+    /**
+     * @var string
+     */
     private $url;
 
     /**
      * @param string $url
-     * @param int $level
+     * @param string $level
+     * @param \MadeiraMadeira\Logger\Core\Interfaces\FormatterInterface
      */
-    public function __construct($url, $level)
+    public function __construct(string $url, string $level, $formatter)
     {
         $this->url = $url;
         $this->level = Logger::toLoggerLevel($level);
+        $this->setFormatter($formatter);
     }
 
     /**
-     * @param \MadeiraMadeira\Logger\Core\Repositories\Logger\Formatter $formatter
+     * @param \MadeiraMadeira\Logger\Core\Interfaces\FormatterInterface $formatter
      * @return void
      */
     public function setFormatter($formatter)
@@ -41,7 +50,7 @@ class Handler
      * @param array $record
      * @return bool
      */
-    public function handle($record)
+    public function handle(array $record)
     {
         $success = true;
         try{
@@ -55,6 +64,7 @@ class Handler
             
             $formatedRecord = $this->formatter->format($record);
             $this->write($formatedRecord);
+        
         }catch(\Exception $e) {
             $success = false;
         }
@@ -75,7 +85,7 @@ class Handler
      * @param int $level
      * @return bool
      */
-    public function isHandling($level)
+    public function isHandling(int $level)
     {
         return $level >= $this->level;
     }
