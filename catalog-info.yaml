@@ -5,6 +5,7 @@ metadata:
   annotations:
     github.com/project-slug: madeiramadeirabr/lib_php-logger
     sonarqube.org/project-key: madeiramadeirabr/lib_php-logger
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: service
   lifecycle: experimental
