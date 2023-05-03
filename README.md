@@ -29,3 +29,4 @@ $ docker exec -it mmrfc-php-logger ./vendor/bin/phpunit
 ### Instruções para uso da biblioteca
 
 [Acessar documentação](./docs/README.md)
+ 
