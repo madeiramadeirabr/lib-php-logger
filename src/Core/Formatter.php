@@ -28,7 +28,7 @@ class Formatter implements FormatterInterface
      * @param array $record
      * @return string|bool
      */
-    public function format($record)
+    public function format(array $record)
     {
         $normalized = $this->normalize($record);
 
