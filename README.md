@@ -7,7 +7,8 @@ Biblioteca em PHP que implementa a [MMRFC](https://madeiramadeira.atlassian.net/
 - biblioteca em php
 
 ### Squad responsável
-Squad SRE
+Mantida pelo de SRE
+Aberto para qualquer equipe atualizar e implementar funcionalidades
 
 ### Desenvolvimento
 Para ambiente de desenvolvimento
