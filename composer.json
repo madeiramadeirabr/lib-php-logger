@@ -1,5 +1,5 @@
 {
-    "name": "madeiramadeirabr/lib_php-mmrfc-logger",
+    "name": "madeiramadeirabr/lib_php-logger",
     "description": "Biblioteca que implementa a RFC de logs em PHP",
     "type": "library",
     "authors": [
@@ -8,13 +8,13 @@
             "email": "lucas.villatore@madeiramadeira.com.br"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "php": "^8.1",
-        "monolog/monolog": "^2.5"
+        "php": "7.1 - 8.1",
+        "ext-json": "*"
     },
     "require-dev": {
-		"phpunit/phpunit": "^10.0"
+		"phpunit/phpunit": "7.0 - 10.0"
     },
     "autoload": {
         "psr-4": {

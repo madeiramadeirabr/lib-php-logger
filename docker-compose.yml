@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
       args:
         PHP_VERSION: 8.1.1
-        XDEBUG_VERSION: 3.2.1
+        # XDEBUG_VERSION: 2.9.1
         COMPOSER_VERSION: 2.1.14
     volumes:
       - type: bind
