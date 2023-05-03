@@ -2,9 +2,6 @@
 
 namespace MadeiraMadeira\Logger\Core;
 
-use MadeiraMadeira\Logger\Core\Config;
-use MadeiraMadeira\Logger\Core\Factories\HandlerFactory;
-use MadeiraMadeira\Logger\Core\Factories\FormatterFactory;
 use MadeiraMadeira\Logger\Core\Interfaces\LoggerInterface;
 
 class Logger implements LoggerInterface
