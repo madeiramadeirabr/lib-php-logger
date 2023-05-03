@@ -3,12 +3,22 @@
 ### Descrição
 Biblioteca em PHP que implementa a [MMRFC](https://madeiramadeira.atlassian.net/wiki/spaces/S/pages/2317942893/MMRFC+1+-+Log) de Logs
 
+### Versões suportadas
+
+| PHP 	| Monolog 	| PHP Unit 	|
+|-----	|---------	|----------	|
+| 7.1 	| ^2.0   	| 7.x      	| ok
+| 7.2 	| ^2.5    	| 8.x      	| ok
+| 7.3 	| ^2.5    	| 9.x      	| ok
+| 7.4 	| ^2.5    	| 9.x      	| ok
+| 8.0 	| ^2.5    	| 9.x      	| ok
+| 8.1 	| ^2.5    	| 10.x     	| ok
+
 ### Contexto de negócio
 - biblioteca em php
 
 ### Squad responsável
-Mantida pelo de SRE
-Aberto para qualquer equipe atualizar e implementar funcionalidades
+Squad SRE
 
 ### Desenvolvimento
 Para ambiente de desenvolvimento
@@ -26,6 +36,118 @@ $ docker-compose up
 $ docker exec -it mmrfc-php-logger ./vendor/bin/phpunit
 ```
 
-### Instruções para uso da biblioteca
+### Instruções para uso
 
-[Acessar documentação](./docs/README.md)
+***Instalação***:
+
+Rode
+```bash
+$ composer config repositories.lib_php-logger git git@github.com:madeiramadeirabr/lib_php-logger.git
+$ composer require madeiramadeirabr/lib_php-logger
+```
+
+
+Para uso da biblioteca em projetos PHP
+
+```php
+<?php
+...
+use MadeiraMadeira\Logger\LoggerFactory;
+...
+
+$logger = (new LoggerFactory())->createLoggerInstance();
+...
+
+$logger->info(
+    "Mensagem descritiva", ["foo" => "bar"]
+);
+$logger->warning(
+    "Mensagem descritiva", ["foo" => "bar"]
+);
+$logger->error(
+    "Mensagem descritiva", ["foo" => "bar"]
+);
+$logger->debug(
+    "Mensagem descritiva", ["foo" => "bar"]
+);
+$logger->emergency(
+    "Mensagem descritiva", ["foo" => "bar"]
+);
+```
+
+***Configurando Log Level***:
+
+```php
+...
+use MadeiraMadeira\Logger\LoggerFactory;
+use MadeiraMadeira\Logger\Core\Config;
+...
+
+$logger = (new LoggerFactory())->createLoggerInstance(
+    new Config(
+        'level' => 'WARNING'
+    )
+);
+...
+```
+
+***Log level disponíveis*** (case insensitive):
+- emergency
+- error
+- warning
+- info
+- debug
+
+
+
+
+Exemplo de chamada + resposta
+
+PHP
+```php
+$logger->emergency(
+    "Mensagem descritiva", 
+    ["foo" => "bar"]
+);
+$logger->info(
+    "Mensagem descritiva",
+    [
+        "global_event_name" => "ORDER CREATED",
+        "user" => [
+            "id" => 1,
+            "order_id" => 1
+        ],
+        "session_id" => "abcde",
+        "trace_id" => "fghi"
+    ]
+);
+```
+Resposta
+```json
+{
+    "message":"Mensagem descritiva",
+    "level":"EMERGENCY",
+    "global_event_timestamp":"2023-04-25T15:19:19+00:00",
+    "service_name":"A dummy Project",
+    "context": {
+        "foo": "bar"
+    }
+}
+
+{
+    "message":"Mensagem descritiva",
+    "level":"INFO",
+    "global_event_name": "ORDER CREATED",
+    "global_event_timestamp":"2023-04-25T15:19:19+00:00",
+    "service_name":"A dummy Project",
+    "context": {
+        "user": {
+            "id": 1,
+            "order_id": 1
+        }
+    },
+    "session_id": "abcde",
+    "trace_id": "fghi"
+}
+```
+

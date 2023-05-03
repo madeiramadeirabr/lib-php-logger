@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Core;
+namespace Tests\Unit\Core;
 
-use MadeiraMadeira\Logger\Core\Config;
 use MadeiraMadeira\Logger\Core\Logger;
 use PHPUnit\Framework\TestCase;
+use Tests\Mock\LoggerRepositoryMock;
 
 class LoggerTest extends TestCase
 {
@@ -13,78 +13,76 @@ class LoggerTest extends TestCase
     public function setUp(): void
     {
         self::$logger = $this->getMockBuilder(Logger::class)
-                            ->setConstructorArgs([new Config()])
+                            ->setConstructorArgs([new LoggerRepositoryMock()])
                             ->getMock();
     }
 
-    public function testTrace()
+    public function testEmergency()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'trace'),
-            "Class does not have method trace"
-        );
-    }
-    public function testDebug()
-    {
-        $this->assertTrue(
-            method_exists(self::$logger, 'debug'),
-            "Class does not have method debug"
-        );
+        $logger = self::$logger;
 
-        self::$logger->expects($this->once())
-                    ->method('debug')
-                    ->with(
-                        $this->equalTo('Debug test'), 
-                        $this->equalTo([]
-                    ));
+        $logger->expects($this->once())
+                ->method('emergency')
+                ->with(
+                    $this->equalTo('Emergency test'), 
+                    $this->equalTo([]
+                ));
 
-        self::$logger->debug("Debug test");
-    }
-    public function testInfo()
-    {
-        $this->assertTrue(
-            method_exists(self::$logger, 'info'),
-            "Class does not have method info"
-        );
-    }
-    public function testWarning()
-    {
-        $this->assertTrue(
-            method_exists(self::$logger, 'warning'),
-            "Class does not have method warning"
-        );
-        
+        $logger->emergency("Emergency test");
     }
     public function testError()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'error'),
-            "Class does not have method error"
-        );
-        
-    }
-    public function testEmergency()
-    {
-        $this->assertTrue(
-            method_exists(self::$logger, 'emergency'),
-            "Class does not have method emergency"
-        );
-        
+        $logger = self::$logger;
+
+        $logger->expects($this->once())
+                ->method('error')
+                ->with(
+                    $this->equalTo('Error test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->error("Error test");
     }
 
-    public function testToLoggerLevel()
+    public function testInfo()
     {
-        $levels = [
-            'TRACE',
-            'DEBUG',
-            'INFO',
-            'WARNING',
-            'ERROR',
-            'EMERGENCY'
-        ];
+        $logger = self::$logger;
 
-        foreach($levels as $key => $value) {
-            $this->assertEquals(Logger::toLoggerLevel($value), $key);
-        }
+        $logger->expects($this->once())
+                ->method('info')
+                ->with(
+                    $this->equalTo('Info test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->info("Info test");
+    }
+
+    public function testDebug()
+    {
+        $logger = self::$logger;
+
+        $logger->expects($this->once())
+                ->method('debug')
+                ->with(
+                    $this->equalTo('Debug test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->debug("Debug test");
+    }
+
+    public function testWarning()
+    {
+        $logger = self::$logger;
+
+        $logger->expects($this->once())
+                ->method('warning')
+                ->with(
+                    $this->equalTo('Warning test'), 
+                    $this->equalTo([]
+                ));
+
+        $logger->warning("Warning test");
     }
 }
