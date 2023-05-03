@@ -16,5 +16,6 @@ interface LoggerInterface
 
     public function trace(string $message, array $args = array(), string $globalEventName = "");
 
+    public function setHandler($handler);
 }
 
