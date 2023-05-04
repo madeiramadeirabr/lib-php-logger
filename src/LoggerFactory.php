@@ -39,5 +39,5 @@ class LoggerFactory
             $handler
         );
     }
-    
+       
 }
