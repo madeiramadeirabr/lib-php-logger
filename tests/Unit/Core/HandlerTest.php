@@ -37,7 +37,7 @@ class HandlerTest extends TestCase
                     ])
                     ->getMock();
 
-        $handler = new Handler("/dev/null", 1, $mock);
+        $handler = new Handler("php://memory", 1, $mock);
 
         $mock->expects($this->once())
             ->method('format')
@@ -73,7 +73,7 @@ class HandlerTest extends TestCase
 
     public function testOpenStream()
     {
-        $handler = new Handler("/tmp/foo", 1, new FormatterMock);
+        $handler = new Handler("php://memory", 1, new FormatterMock);
 
         $resource = $handler->openStream();
     
