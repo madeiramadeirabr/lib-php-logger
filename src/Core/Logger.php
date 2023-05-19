@@ -40,7 +40,7 @@ class Logger implements LoggerInterface
      * @param \MadeiraMadeira\Logger\Core\Interfaces\HandlerInterface $handler
      * @return void
      */
-    public function setHandler($handler)
+    public function setHandler($handler): void
     {
         $this->handler = $handler;
     }
@@ -49,12 +49,12 @@ class Logger implements LoggerInterface
      * @param int $level
      * @param string $message
      * @param array $args 
-     * @return void
+     * @return bool
      */
-    private function addRecord(int $level, string $message, array $args, string $globalEventName)
+    public function addRecord(int $level, string $message, array $args, string $globalEventName): bool
     {
         if (!$this->handler->isHandling($level)) {
-            return;
+            return false;
         }
 
         $record = [
@@ -65,18 +65,7 @@ class Logger implements LoggerInterface
             'global_event_name' => $globalEventName
         ];
 
-        $this->handler->handle($record);
-    }
-
-    /**
-     * @param int $level
-     * @param string message
-     * @param array|null args
-     * @return void
-     */
-    private function log(int $level, string $message, array $args = array(), string $globalEventName = ""): void
-    {
-        $this->addRecord($level, $message, $args, $globalEventName);
+        return $this->handler->handle($record);
     }
 
     /**
@@ -86,7 +75,7 @@ class Logger implements LoggerInterface
      */
     public function emergency(string $message, array $args = array(), string $globalEventName = ""): void
     {
-        $this->log(self::EMERGENCY, $message, $args, $globalEventName);
+        $this->addRecord(self::EMERGENCY, $message, $args, $globalEventName);
     }
 
     /**
@@ -96,7 +85,7 @@ class Logger implements LoggerInterface
      */
     public function error(string $message, array $args = array(), string $globalEventName = ""): void
     {
-        $this->log(self::ERROR, $message, $args, $globalEventName);
+        $this->addRecord(self::ERROR, $message, $args, $globalEventName);
     }
 
     /**
@@ -106,7 +95,7 @@ class Logger implements LoggerInterface
      */
     public function warning(string $message, array $args = array(), string $globalEventName = ""): void
     {
-        $this->log(self::WARNING, $message, $args, $globalEventName);
+        $this->addRecord(self::WARNING, $message, $args, $globalEventName);
     }
 
     /**
@@ -116,7 +105,7 @@ class Logger implements LoggerInterface
      */
     public function info(string $message, array $args = array(), string $globalEventName = ""): void
     {
-        $this->log(self::INFO, $message, $args, $globalEventName);
+        $this->addRecord(self::INFO, $message, $args, $globalEventName);
     }
 
     /**
@@ -126,7 +115,7 @@ class Logger implements LoggerInterface
      */
     public function debug(string $message, array $args = array(), string $globalEventName = ""): void
     {
-        $this->log(self::DEBUG, $message, $args, $globalEventName);
+        $this->addRecord(self::DEBUG, $message, $args, $globalEventName);
     }
 
     /**
@@ -136,7 +125,7 @@ class Logger implements LoggerInterface
      */
     public function trace(string $message, array $args = array(), string $globalEventName = ""): void
     {
-        $this->log(self::TRACE, $message, $args, $globalEventName);
+        $this->addRecord(self::TRACE, $message, $args, $globalEventName);
     }
 
     /**
