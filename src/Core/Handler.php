@@ -50,12 +50,12 @@ class Handler implements HandlerInterface
      * @param array $record
      * @return bool
      */
-    public function handle(array $record)
+    public function handle(array $record): bool
     {
         $success = true;
         try{
             if (!is_resource($this->stream)) {
-                $this->stream = fopen($this->url, "a");
+                $this->stream = $this->openStream();
                 
                 if (!is_resource($this->stream)) {
                     throw new FailedToOpenStreamException("Failed to open stream");
@@ -70,6 +70,19 @@ class Handler implements HandlerInterface
         }
 
         return $success;
+    }
+
+    public function getStream()
+    {
+        return $this->stream;
+    }
+    
+    /**
+     * @return bool|resource
+     */
+    public function openStream()
+    {
+        return fopen($this->url, "a");
     }
 
     /**
