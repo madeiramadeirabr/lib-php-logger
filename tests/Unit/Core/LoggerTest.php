@@ -11,18 +11,33 @@ class LoggerTest extends TestCase
 {
     public function getLoggerMock($handler = null)
     {
-        return $this->getMockBuilder(Logger::class)
-            ->onlyMethods([
-                'addRecord',
-            ])
-            ->setConstructorArgs([$handler ?? $this->getHandlerMock()])
-            ->getMock();
+        $builder = $this->getMockBuilder(Logger::class)
+                        ->setConstructorArgs([$handler ?? $this->getHandlerMock([])]);
+
+        if (version_compare(PHP_VERSION, "7.2.0") >= 0) {
+            $builder->onlyMethods([
+                'addRecord'
+            ]);
+        } else {
+            $builder->setMethods([
+                'addRecord'
+            ]);
+        }
+
+        return $builder->getMock();
     }
 
-    public function getHandlerMock()
+    public function getHandlerMock($methodsList)
     {
-        return $this->getMockBuilder(HandlerMock::class)
-            ->getMock();
+        $builder = $this->getMockBuilder(HandlerMock::class);
+
+        if (version_compare(PHP_VERSION, "7.2.0") >= 0) {
+            $builder->onlyMethods($methodsList);
+        } else {
+            $builder->setMethods($methodsList);
+        }
+
+        return $builder->getMock();
     }
 
     public function testTrace()
@@ -131,29 +146,21 @@ class LoggerTest extends TestCase
 
     public function testAddRecordCallingIsHandling()
     {
-        $handler = $this->getMockBuilder(HandlerMock::class)
-            ->onlyMethods([
-                'isHandling'
-            ])
-            ->getMock();
+        $handler = $this->getHandlerMock(['isHandling']);
 
         $logger = new Logger($handler);
 
         $handler->expects($this->once())
-                ->method('isHandling')
-                ->with(Logger::INFO)
-                ->willReturn(true);
+            ->method('isHandling')
+            ->with(Logger::INFO)
+            ->willReturn(true);
 
         $logger->addRecord(Logger::INFO, "message", [], "");
     }
 
     public function testAddRecordCallingHandle()
     {
-        $handler = $this->getMockBuilder(HandlerMock::class)
-            ->onlyMethods([
-                'handle'
-            ])
-            ->getMock();
+        $handler = $this->getHandlerMock(['handle']);
 
         $logger = new Logger($handler);
 

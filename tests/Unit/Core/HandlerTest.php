@@ -7,6 +7,35 @@ use PHPUnit\Framework\TestCase;
 use Tests\Mock\FormatterMock;
 class HandlerTest extends TestCase
 {
+
+    public function getFormatterMock($methodsList)
+    {
+        $builder = $this->getMockBuilder(FormatterMock::class);
+
+        if (version_compare(PHP_VERSION, "7.2.0") >= 0) {
+            $builder->onlyMethods($methodsList);
+        }else {
+            $builder->setMethods($methodsList);
+        }
+
+        return $builder->getMock();
+    }
+
+    public function getHandlerMock($methodsList, $constructorArgs)
+    {
+        $builder = $this->getMockBuilder(Handler::class)
+                        ->setConstructorArgs($constructorArgs);
+
+        if (version_compare(PHP_VERSION, "7.2.0") >= 0) {
+            $builder->onlyMethods($methodsList);
+        }else {
+            $builder->setMethods($methodsList);
+        }
+
+        return $builder->getMock();
+    }
+
+
     public function testIsHandling()
     {
         $levels = [
@@ -31,11 +60,7 @@ class HandlerTest extends TestCase
 
     public function testHandleCallingFormatter()
     {
-        $mock = $this->getMockBuilder(FormatterMock::class)
-                    ->onlyMethods([
-                        'format'
-                    ])
-                    ->getMock();
+        $mock = $this->getFormatterMock(['format']);
 
         $handler = new Handler("php://memory", 1, $mock);
 
@@ -55,12 +80,7 @@ class HandlerTest extends TestCase
 
     public function testHandleThrowingException()
     {
-        $handler = $this->getMockBuilder(Handler::class)
-                     ->onlyMethods([
-                        'openStream'
-                     ])
-                     ->setConstructorArgs(['', 1, new FormatterMock])
-                     ->getMock();
+        $handler = $this->getHandlerMock(['openStream'], ['', 1, new FormatterMock]);
 
         $handler->expects($this->once())
                 ->method('openStream')
