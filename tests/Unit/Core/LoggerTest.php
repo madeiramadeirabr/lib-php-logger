@@ -2,89 +2,192 @@
 
 namespace Tests\Core;
 
-use MadeiraMadeira\Logger\Core\Config;
+use MadeiraMadeira\Logger\Core\Interfaces\HandlerInterface;
 use MadeiraMadeira\Logger\Core\Logger;
 use PHPUnit\Framework\TestCase;
+use Tests\Mock\HandlerMock;
 
 class LoggerTest extends TestCase
 {
-    private static $logger;
-
-    public function setUp(): void
+    public function getLoggerMock($handler = null)
     {
-        self::$logger = $this->getMockBuilder(Logger::class)
-                            ->setConstructorArgs([new Config()])
-                            ->getMock();
+        $builder = $this->getMockBuilder(Logger::class)
+                        ->setConstructorArgs([$handler ?? $this->getHandlerMock([])]);
+
+        if (version_compare(PHP_VERSION, "7.2.0") >= 0) {
+            $builder->onlyMethods([
+                'addRecord'
+            ]);
+        } else {
+            $builder->setMethods([
+                'addRecord'
+            ]);
+        }
+
+        return $builder->getMock();
+    }
+
+    public function getHandlerMock($methodsList)
+    {
+        $builder = $this->getMockBuilder(HandlerMock::class);
+
+        if (version_compare(PHP_VERSION, "7.2.0") >= 0) {
+            $builder->onlyMethods($methodsList);
+        } else {
+            $builder->setMethods($methodsList);
+        }
+
+        return $builder->getMock();
     }
 
     public function testTrace()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'trace'),
-            "Class does not have method trace"
-        );
+        $logger = $this->getLoggerMock();
+
+        $message = 'Mensagem';
+
+        $logger->expects($this->once())
+            ->method('addRecord')
+            ->with(
+                Logger::TRACE,
+                $message,
+                [],
+                ''
+            );
+
+        $logger->trace($message, []);
     }
+
     public function testDebug()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'debug'),
-            "Class does not have method debug"
-        );
+        $logger = $this->getLoggerMock();
 
-        self::$logger->expects($this->once())
-                    ->method('debug')
-                    ->with(
-                        $this->equalTo('Debug test'), 
-                        $this->equalTo([]
-                    ));
+        $message = 'Mensagem';
 
-        self::$logger->debug("Debug test");
+        $logger->expects($this->once())
+            ->method('addRecord')
+            ->with(
+                Logger::DEBUG,
+                $message,
+                [],
+                ''
+            );
+
+        $logger->debug($message, []);
     }
     public function testInfo()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'info'),
-            "Class does not have method info"
-        );
+        $logger = $this->getLoggerMock();
+
+        $message = 'Mensagem';
+
+        $logger->expects($this->once())
+            ->method('addRecord')
+            ->with(
+                Logger::INFO,
+                $message,
+                [],
+                ''
+            );
+
+        $logger->info($message, []);
     }
     public function testWarning()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'warning'),
-            "Class does not have method warning"
-        );
-        
+        $logger = $this->getLoggerMock();
+
+        $message = 'Mensagem';
+
+        $logger->expects($this->once())
+            ->method('addRecord')
+            ->with(
+                Logger::WARNING,
+                $message,
+                [],
+                ''
+            );
+
+        $logger->warning($message, []);
     }
     public function testError()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'error'),
-            "Class does not have method error"
-        );
-        
+        $logger = $this->getLoggerMock();
+
+        $message = 'Mensagem';
+
+        $logger->expects($this->once())
+            ->method('addRecord')
+            ->with(
+                Logger::ERROR,
+                $message,
+                [],
+                ''
+            );
+
+        $logger->error($message, []);
     }
     public function testEmergency()
     {
-        $this->assertTrue(
-            method_exists(self::$logger, 'emergency'),
-            "Class does not have method emergency"
-        );
-        
+        $logger = $this->getLoggerMock();
+
+        $message = 'Mensagem';
+
+        $logger->expects($this->once())
+            ->method('addRecord')
+            ->with(
+                Logger::EMERGENCY,
+                $message,
+                [],
+                ''
+            );
+
+        $logger->emergency($message, []);
+    }
+
+    public function testAddRecordCallingIsHandling()
+    {
+        $handler = $this->getHandlerMock(['isHandling']);
+
+        $logger = new Logger($handler);
+
+        $handler->expects($this->once())
+            ->method('isHandling')
+            ->with(Logger::INFO)
+            ->willReturn(true);
+
+        $logger->addRecord(Logger::INFO, "message", [], "");
+    }
+
+    public function testAddRecordCallingHandle()
+    {
+        $handler = $this->getHandlerMock(['handle']);
+
+        $logger = new Logger($handler);
+
+        $handler->expects($this->once())
+            ->method('handle')
+            ->withAnyParameters()
+            ->willReturn(true);
+
+        $result = $logger->addRecord(Logger::INFO, "message", [], "");
+
+        $this->assertTrue($result, "Should return result of handle");
     }
 
     public function testToLoggerLevel()
     {
         $levels = [
-            'TRACE',
-            'DEBUG',
-            'INFO',
-            'WARNING',
-            'ERROR',
-            'EMERGENCY'
+            'TRACE' => 0,
+            'DEBUG' => 1,
+            'INFO' => 2,
+            'WARNING' => 3,
+            'ERROR' => 4,
+            'EMERGENCY' => 5,
+            'LEVEL ERROR NAO EXISTENTE' => null
         ];
 
-        foreach($levels as $key => $value) {
-            $this->assertEquals(Logger::toLoggerLevel($value), $key);
+        foreach ($levels as $key => $value) {
+            $this->assertSame(Logger::toLoggerLevel($key), $value);
         }
     }
 }
