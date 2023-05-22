@@ -2,7 +2,6 @@
 
 namespace Tests\Core;
 
-use MadeiraMadeira\Logger\Core\Interfaces\HandlerInterface;
 use MadeiraMadeira\Logger\Core\Logger;
 use PHPUnit\Framework\TestCase;
 use Tests\Mock\HandlerMock;

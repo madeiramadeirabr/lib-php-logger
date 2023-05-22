@@ -38,7 +38,7 @@ class LoggerStatic
     /**
      * @param \MadeiraMadeira\Logger\Core\Config $config
      */
-    public static function setConfig($config)
+    public static function setConfig($config): void
     {
         self::$config = $config;
     }
@@ -46,6 +46,7 @@ class LoggerStatic
     /**
      * @param string message
      * @param array|null args
+     * @param string globalEventName
      * @return void
      */
     public static function emergency(string $message, array $args = array(), string $globalEventName = ""): void
@@ -56,9 +57,10 @@ class LoggerStatic
     /**
      * @param string message
      * @param array|null args
+     * @param string globalEventName
      * @return void
      */
-    public function error(string $message, array $args = array(), string $globalEventName = ""): void
+    public static function error(string $message, array $args = array(), string $globalEventName = ""): void
     {
         self::getInstance()->error($message, $args, $globalEventName);
     }
@@ -66,9 +68,10 @@ class LoggerStatic
     /**
      * @param string message
      * @param array|null args
+     * @param string globalEventName
      * @return void
      */
-    public function warning(string $message, array $args = array(), string $globalEventName = ""): void
+    public static function warning(string $message, array $args = array(), string $globalEventName = ""): void
     {
         self::getInstance()->warning($message, $args, $globalEventName);
     }
@@ -76,9 +79,10 @@ class LoggerStatic
     /**
      * @param string message
      * @param array|null args
+     * @param string globalEventName
      * @return void
      */
-    public function info(string $message, array $args = array(), string $globalEventName = ""): void
+    public static function info(string $message, array $args = array(), string $globalEventName = ""): void
     {
         self::getInstance()->info($message, $args, $globalEventName);
     }
@@ -86,9 +90,10 @@ class LoggerStatic
     /**
      * @param string message
      * @param array|null args
+     * @param string globalEventName
      * @return void
      */
-    public function debug(string $message, array $args = array(), string $globalEventName = ""): void
+    public static function debug(string $message, array $args = array(), string $globalEventName = ""): void
     {
         self::getInstance()->debug($message, $args, $globalEventName);
     }
@@ -96,9 +101,10 @@ class LoggerStatic
     /**
      * @param string message
      * @param array|null args
+     * @param string globalEventName
      * @return void
      */
-    public function trace(string $message, array $args = array(), string $globalEventName = ""): void
+    public static function trace(string $message, array $args = array(), string $globalEventName = ""): void
     {
         self::getInstance()->trace($message, $args, $globalEventName);
     }
