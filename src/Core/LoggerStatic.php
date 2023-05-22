@@ -24,7 +24,7 @@ class LoggerStatic
     /**
      * @return \MadeiraMadeira\Logger\Core\Interfaces\LoggerInterface
      */
-    public static function getInstance()
+    private static function getInstance()
     {
         if (self::$logger) {
             return self::$logger;
