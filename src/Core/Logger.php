@@ -36,6 +36,7 @@ class Logger implements LoggerInterface
         $this->setHandler($handler);
     }
 
+    
     /**
      * @param \MadeiraMadeira\Logger\Core\Interfaces\HandlerInterface $handler
      * @return void
