@@ -1,4 +1,4 @@
-# lib_php-logger
+# lib-php-logger
 
 ### Descrição
 Biblioteca em PHP que implementa a [MMRFC](https://madeiramadeira.atlassian.net/wiki/spaces/S/pages/2317942893/MMRFC+1+-+Log) de Logs
@@ -30,4 +30,3 @@ $ docker exec -it mmrfc-php-logger ./vendor/bin/phpunit
 
 [Acessar documentação](./docs/README.md)
  
-  
