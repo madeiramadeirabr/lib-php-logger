@@ -2,4 +2,3 @@ vendor/
 reports/
 
 .phpunit.cache
-composer.lock
