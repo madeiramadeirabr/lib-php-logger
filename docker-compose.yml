@@ -2,20 +2,10 @@ version: "3.8"
 
 services:
   php:
-    # image: php-docker-template-php
-    container_name: mmrfc-php-logger
+    container_name: lib-php-logger
     build:
-      context: ./docker/php
-      dockerfile: Dockerfile
-      args:
-        PHP_VERSION: 8.1
-        # XDEBUG_VERSION: 2.5.0
-        COMPOSER_VERSION: 2.1.14
+      context: .
+      dockerfile: ./docker/php7.2/Dockerfile
     volumes:
-      - type: bind
-        source: ./
-        target: /var/www/html
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+      - .:/app
+    user: $UID:$GID

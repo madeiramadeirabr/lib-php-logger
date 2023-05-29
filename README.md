@@ -1,32 +1,40 @@
 # lib-php-logger
 
-### Descrição
+## Descrição
 Biblioteca em PHP que implementa a [MMRFC](https://madeiramadeira.atlassian.net/wiki/spaces/S/pages/2317942893/MMRFC+1+-+Log) de Logs
 
-### Contexto de negócio
+## Contexto de negócio
 - biblioteca em php
 
-### Squad responsável
+## Squad responsável
 Mantida pelo de SRE
 Aberto para qualquer equipe atualizar e implementar funcionalidades
 
-### Desenvolvimento
+## Desenvolvimento
 Para ambiente de desenvolvimento
 
 ```bash
-$ composer install
-$ docker-compose up
+$ docker-compose up --build
+$ docker exec -it lib-php-logger composer install
 ```
 
-### Testes
+## Testes
 Para rodar os testes, raíz do projeto você deve rodar:
 
 ```bash
-$ docker-compose up
-$ docker exec -it mmrfc-php-logger ./vendor/bin/phpunit
+$ docker-compose up --build
+$ docker exec -it lib-php-logger ./vendor/bin/phpunit
 ```
 
-### Instruções para uso da biblioteca
+### Coverage 
+Para gerar o coverage dos testes, raíz do projeto você deve rodar:
+
+```bash
+$ docker-compose up --build
+$ docker exec -it lib-php-logger ./vendor/bin/phpunit --coverage-html ./reports
+```
+
+## Instruções para uso da biblioteca
 
 [Acessar documentação](./docs/README.md)
  
