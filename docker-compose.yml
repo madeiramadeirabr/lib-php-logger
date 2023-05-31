@@ -5,7 +5,7 @@ services:
     container_name: lib-php-logger
     build:
       context: .
-      dockerfile: ./docker/php7.2/Dockerfile
+      dockerfile: ./docker/php8.1/Dockerfile
     volumes:
       - .:/app
     user: $UID:$GID

@@ -14,7 +14,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pecl channel-update pecl.php.net \
-	&& pecl install xdebug-3.2.3 \
+	&& pecl install xdebug-3.2.1 \
 	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./docker/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
