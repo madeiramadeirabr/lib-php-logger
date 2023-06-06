@@ -1,5 +1,5 @@
 {
-    "name": "madeiramadeirabr/lib_php-logger",
+    "name": "madeiramadeirabr/lib-php-logger",
     "description": "Biblioteca que implementa a RFC de logs em PHP",
     "type": "library",
     "authors": [
@@ -8,7 +8,6 @@
             "email": "lucas.villatore@madeiramadeira.com.br"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": "7.1 - 8.2",
         "ext-json": "*"
