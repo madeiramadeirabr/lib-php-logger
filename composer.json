@@ -2,7 +2,7 @@
     "name": "madeiramadeirabr/lib-php-logger",
     "description": "Biblioteca que implementa a RFC de logs em PHP",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Lucas Block",
