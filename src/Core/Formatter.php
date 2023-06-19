@@ -126,7 +126,7 @@ class Formatter implements FormatterInterface
             $record, 
             JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | 
             JSON_PRESERVE_ZERO_FRACTION | JSON_PARTIAL_OUTPUT_ON_ERROR
-        );
+        ) . "\n";
     }
 
     /**
